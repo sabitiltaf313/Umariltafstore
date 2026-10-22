@@ -3,29 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Umar Iltaf Store | Official</title>
+<title>Umar Iltaf Store - Login</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
 *{font-family:'Poppins',sans-serif; box-sizing:border-box;}
-body{background:#f0f2f5; margin:0; display:flex; justify-content:center; align-items:center; min-height:100vh;}
+body{background:#f0f2f5; margin:0; display:flex; justify-content:center; align-items:center; min-height:100vh; padding:15px;}
 .container{width:100%; max-width:420px; background:#fff; border-radius:20px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.1);}
 .header{background:#000; color:#fff; padding:25px; text-align:center;}
 .header h1{margin:0; font-size:22px;}
 .header p{margin:5px 0 0; opacity:0.7; font-size:13px;}
 .form{padding:25px;}
+.tabs{display:flex; background:#f0f2f5; border-radius:12px; padding:4px; margin-bottom:20px;}
+.tab{flex:1; padding:11px; text-align:center; border-radius:8px; font-weight:600; font-size:14px; cursor:pointer; transition:0.3s;}
+.tab.active{background:#000; color:#fff;}
+.tab.inactive{background:transparent; color:#666;}
 .input-group{margin-bottom:14px;}
 .input-group label{font-size:12px; font-weight:600; color:#333;}
-.input-group input, .input-group select{width:100%; padding:13px; border:1.5px solid #e0e0e0; border-radius:10px; margin-top:5px; outline:none; transition:0.3s;}
-.input-group input:focus{border-color:#000;}
+.input-group input, .input-group select{width:100%; padding:13px; border:1.5px solid #e0e0e0; border-radius:10px; margin-top:5px; outline:none;}
 .btn{width:100%; padding:14px; background:#000; color:#fff; border:none; border-radius:10px; font-weight:600; font-size:15px; cursor:pointer; margin-top:10px;}
-.btn:hover{background:#222;}
 .withdraw-card{background:linear-gradient(135deg,#000,#333); color:white; padding:15px; border-radius:12px; margin-top:20px;}
 .withdraw-card h4{margin:0 0 8px; font-size:14px; color:#ffc107;}
 .withdraw-card ul{margin:0; padding-left:18px; font-size:12px; line-height:1.8; opacity:0.9;}
-.badge{display:inline-block; background:#ffc107; color:#000; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; margin-top:10px;}
-.days-row{display:flex; gap:6px; margin-top:10px;}
-.day{background:#fff; color:#000; padding:6px 0; flex:1; text-align:center; border-radius:8px; font-size:11px; font-weight:600;}
+.days-row{display:flex; gap:5px; margin-top:10px;}
+.day{background:#fff; color:#000; padding:6px 0; flex:1; text-align:center; border-radius:6px; font-size:11px; font-weight:600;}
 .day.off{background:rgba(255,255,255,0.2); color:#aaa;}
+.hidden{display:none;}
 </style>
 </head>
 <body>
@@ -37,7 +39,13 @@ body{background:#f0f2f5; margin:0; display:flex; justify-content:center; align-i
 </div>
 
 <div class="form">
-<div class="input-group">
+
+<div class="tabs">
+<div class="tab active" id="tabLogin" onclick="showLogin()">LOGIN</div>
+<div class="tab inactive" id="tabSignup" onclick="showSignup()">SIGNUP</div>
+</div>
+
+<div class="input-group" id="nameGroup" style="display:none;">
 <label>Full Name</label>
 <input type="text" id="name" placeholder="e.g. Umar Iltaf">
 </div>
@@ -48,11 +56,11 @@ body{background:#f0f2f5; margin:0; display:flex; justify-content:center; align-i
 </div>
 
 <div class="input-group">
-<label>Create Password</label>
+<label>Password</label>
 <input type="password" id="pass" placeholder="••••••••">
 </div>
 
-<div class="input-group">
+<div class="input-group hidden" id="methodGroup">
 <label>Withdrawal Method</label>
 <select id="method">
 <option value="">Select Method</option>
@@ -61,12 +69,12 @@ body{background:#f0f2f5; margin:0; display:flex; justify-content:center; align-i
 </select>
 </div>
 
-<div class="input-group">
-<label>Account Number (Same Name)</label>
+<div class="input-group hidden" id="accountGroup">
+<label>Account Number</label>
 <input type="text" id="account" placeholder="03XX-XXXXXXX">
 </div>
 
-<button class="btn" onclick="signup()">CREATE ACCOUNT →</button>
+<button class="btn" id="mainBtn" onclick="login()">LOGIN →</button>
 
 <div class="withdraw-card">
 <h4>💳 WITHDRAWAL POLICY</h4>
@@ -74,33 +82,65 @@ body{background:#f0f2f5; margin:0; display:flex; justify-content:center; align-i
 <li>Minimum Withdrawal: <b>Rs.1000</b></li>
 <li>At least 1 Verified Sale Required</li>
 <li>Account Must Be On Your Name</li>
-<li>No Fake Orders Allowed</li>
+<li>No Bonus - Real Earning Only</li>
 </ul>
-
 <div class="days-row">
-<div class="day">MON</div>
-<div class="day">TUE</div>
-<div class="day">WED</div>
-<div class="day">THU</div>
-<div class="day off">FRI</div>
-<div class="day off">SAT</div>
-<div class="day off">SUN</div>
+<div class="day">MON</div><div class="day">TUE</div><div class="day">WED</div><div class="day">THU</div>
+<div class="day off">FRI</div><div class="day off">SAT</div><div class="day off">SUN</div>
 </div>
-<p style="font-size:11px; margin-top:10px; opacity:0.7;">✓ Withdrawal Available: Monday to Thursday Only (4 Business Days)</p>
+<p style="font-size:11px; margin-top:10px; opacity:0.7;">✓ Withdrawal: Monday to Thursday (4 Business Days)</p>
 </div>
 
 </div>
 </div>
 
 <script>
+let isLogin = true;
+function showLogin(){
+ isLogin=true;
+ document.getElementById('tabLogin').className='tab active';
+ document.getElementById('tabSignup').className='tab inactive';
+ document.getElementById('nameGroup').style.display='none';
+ document.getElementById('methodGroup').classList.add('hidden');
+ document.getElementById('accountGroup').classList.add('hidden');
+ document.getElementById('mainBtn').innerText='LOGIN →';
+}
+function showSignup(){
+ isLogin=false;
+ document.getElementById('tabSignup').className='tab active';
+ document.getElementById('tabLogin').className='tab inactive';
+ document.getElementById('nameGroup').style.display='block';
+ document.getElementById('methodGroup').classList.remove('hidden');
+ document.getElementById('accountGroup').classList.remove('hidden');
+ document.getElementById('mainBtn').innerText='CREATE ACCOUNT →';
+}
+
+function login(){
+ let phone=document.getElementById('phone').value;
+ let pass=document.getElementById('pass').value;
+ if(phone==""||pass==""){alert("Enter Phone & Password"); return;}
+ alert("Login Success!");
+ window.location.href="affiliate.html?ref="+phone;
+}
+
 function signup(){
- if(document.getElementById('name').value=="" || document.getElementById('phone').value==""){ alert("Fill All Fields"); return; }
+ let name=document.getElementById('name').value;
+ let phone=document.getElementById('phone').value;
+ let pass=document.getElementById('pass').value;
+ let method=document.getElementById('method').value;
+ let account=document.getElementById('account').value;
+ if(name==""||phone==""||pass==""||method==""||account==""){alert("Fill All Fields"); return;}
  localStorage.setItem('balance',0);
- localStorage.setItem('withdraw_method',document.getElementById('method').value);
- alert("Account Created Successfully!");
- window.location.href="affiliate.html?ref="+document.getElementById('phone').value;
+ localStorage.setItem('withdraw_method',method);
+ localStorage.setItem('withdraw_account',account);
+ alert("Account Created! Balance Rs.0 - No Bonus");
+ window.location.href="affiliate.html?ref="+phone;
+}
+
+// Override main btn
+document.getElementById('mainBtn').onclick = function(){
+ if(isLogin) login(); else signup();
 }
 </script>
-
 </body>
 </html>
