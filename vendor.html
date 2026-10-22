@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vendor Panel - Umar Iltaf Store</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f2f2f2;padding:15px}
+.card{background:#fff;max-width:500px;margin:auto;padding:20px;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+h2{text-align:center}
+.notice{background:#fff3cd;border:1px solid #ffda6a;padding:10px;border-radius:8px;margin-bottom:15px;text-align:center;font-weight:bold}
+input,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px}
+button{width:100%;padding:12px;background:#25D366;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:bold}
+.lang-btn{width:auto;float:right;background:#000;padding:5px 12px;font-size:13px;margin-bottom:10px}
+</style>
+</head>
+<body>
+
+<div class="card">
+<button class="lang-btn" onclick="toggleLang()" id="langBtn">اردو</button>
+
+<h2 id="title">Add Your Product</h2>
+
+<div class="notice" id="notice">
+Note: Rs. 200 commission will be deducted from sale price. Adding product is FREE.
+</div>
+
+<input type="text" id="pname" placeholder="Product Name">
+<input type="text" id="pprice" placeholder="Your Price (e.g. 1450)">
+<input type="text" id="pwhatsapp" placeholder="Your WhatsApp Number">
+<textarea id="pdesc" placeholder="Product Description"></textarea>
+
+<button onclick="sendProduct()" id="submitBtn">Submit on WhatsApp</button>
+</div>
+
+<script>
+let isUrdu = false;
+function toggleLang(){
+ isUrdu = !isUrdu;
+ if(isUrdu){
+  document.getElementById('langBtn').innerText = 'English';
+  document.getElementById('title').innerText = 'اپنی پروڈکٹ شامل کریں';
+  document.getElementById('notice').innerText = 'نوٹس: آپ کی پروڈکٹ جتنے میں بکے گی، اس میں سے ۲۰۰ روپے کمیشن کاٹا جائے گا۔ پروڈکٹ لگانا بالکل فری ہے۔';
+  document.getElementById('pname').placeholder = 'پروڈکٹ کا نام';
+  document.getElementById('pprice').placeholder = 'آپ کی قیمت (مثلاً ۱۴۵۰)';
+  document.getElementById('pwhatsapp').placeholder = 'آپ کا واٹس ایپ نمبر';
+  document.getElementById('pdesc').placeholder = 'پروڈکٹ کی تفصیل';
+  document.getElementById('submitBtn').innerText = 'واٹس ایپ پر بھیجیں';
+ } else {
+  document.getElementById('langBtn').innerText = 'اردو';
+  document.getElementById('title').innerText = 'Add Your Product';
+  document.getElementById('notice').innerText = 'Note: Rs. 200 commission will be deducted from sale price. Adding product is FREE.';
+  document.getElementById('pname').placeholder = 'Product Name';
+  document.getElementById('pprice').placeholder = 'Your Price (e.g. 1450)';
+  document.getElementById('pwhatsapp').placeholder = 'Your WhatsApp Number';
+  document.getElementById('pdesc').placeholder = 'Product Description';
+  document.getElementById('submitBtn').innerText = 'Submit on WhatsApp';
+ }
+}
+function sendProduct(){
+ let name=document.getElementById('pname').value;
+ let price=document.getElementById('pprice').value;
+ let num=document.getElementById('pwhatsapp').value;
+ let desc=document.getElementById('pdesc').value;
+ let msg = `New Vendor Product:%0AName: ${name}%0APrice: ${price} (200 commission agreed)%0AWhatsApp: ${num}%0ADesc: ${desc}`;
+ window.open(`https://wa.me/923000000000?text=${msg}`,'_blank');
+}
+</script>
+</body>
+</html>
