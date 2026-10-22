@@ -1,145 +1,149 @@
 <!DOCTYPE html>
-<html>
+<html lang="ur" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Umar Iltaf Store - Login</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<title>Umar Iltaf Store - Signup Verification</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Poppins:wght@600&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 <style>
-*{font-family:'Poppins',sans-serif; box-sizing:border-box;}
+*{box-sizing:border-box; font-family:'Poppins',sans-serif;}
 body{background:#f0f2f5; margin:0; display:flex; justify-content:center; align-items:center; min-height:100vh; padding:15px;}
-.container{width:100%; max-width:420px; background:#fff; border-radius:20px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.1);}
-.header{background:#000; color:#fff; padding:25px; text-align:center;}
-.header h1{margin:0; font-size:22px;}
-.header p{margin:5px 0 0; opacity:0.7; font-size:13px;}
-.form{padding:25px;}
-.tabs{display:flex; background:#f0f2f5; border-radius:12px; padding:4px; margin-bottom:20px;}
-.tab{flex:1; padding:11px; text-align:center; border-radius:8px; font-weight:600; font-size:14px; cursor:pointer; transition:0.3s;}
-.tab.active{background:#000; color:#fff;}
-.tab.inactive{background:transparent; color:#666;}
-.input-group{margin-bottom:14px;}
-.input-group label{font-size:12px; font-weight:600; color:#333;}
-.input-group input, .input-group select{width:100%; padding:13px; border:1.5px solid #e0e0e0; border-radius:10px; margin-top:5px; outline:none;}
-.btn{width:100%; padding:14px; background:#000; color:#fff; border:none; border-radius:10px; font-weight:600; font-size:15px; cursor:pointer; margin-top:10px;}
-.withdraw-card{background:linear-gradient(135deg,#000,#333); color:white; padding:15px; border-radius:12px; margin-top:20px;}
-.withdraw-card h4{margin:0 0 8px; font-size:14px; color:#ffc107;}
-.withdraw-card ul{margin:0; padding-left:18px; font-size:12px; line-height:1.8; opacity:0.9;}
-.days-row{display:flex; gap:5px; margin-top:10px;}
-.day{background:#fff; color:#000; padding:6px 0; flex:1; text-align:center; border-radius:6px; font-size:11px; font-weight:600;}
-.day.off{background:rgba(255,255,255,0.2); color:#aaa;}
-.hidden{display:none;}
+.main{width:100%; max-width:430px; background:#fff; border-radius:18px; box-shadow:0 10px 30px rgba(0,0,0,0.1); overflow:hidden;}
+.head{background:#000; color:#fff; padding:20px; text-align:center;}
+.form{padding:20px;}
+.input{width:100%; padding:13px; border:1.5px solid #ddd; border-radius:10px; margin-top:5px; margin-bottom:12px;}
+.btn{width:100%; padding:13px; background:#000; color:#fff; border:none; border-radius:10px; font-weight:700; cursor:pointer;}
+.tab{display:flex; background:#eee; border-radius:10px; padding:4px; margin-bottom:15px;}
+.tab div{flex:1; text-align:center; padding:10px; border-radius:8px; cursor:pointer; font-weight:600; font-size:14px;}
+.tab .active{background:#000; color:#fff;}
+.details-box{background:#f8ffef; border:2px solid #00b050; border-radius:12px; padding:15px; margin-top:15px; display:none;}
+.details-box h4{margin:0 0 10px 0; color:#00b050;}
+.otp-box{background:#fff8e1; border:1.5px dashed #ffb300; padding:15px; border-radius:12px; margin-top:15px; display:none; text-align:center;}
 </style>
 </head>
 <body>
-
-<div class="container">
-<div class="header">
-<h1>UMAR ILTAF STORE</h1>
-<p>Pakistan's Trusted Affiliate Platform</p>
-</div>
-
+<div class="main">
+<div class="head"><h2 style="margin:0;">UMAR ILTAF STORE</h2><small>ڈائریکٹ ویریفکیشن سسٹم</small></div>
 <div class="form">
-
-<div class="tabs">
-<div class="tab active" id="tabLogin" onclick="showLogin()">LOGIN</div>
-<div class="tab inactive" id="tabSignup" onclick="showSignup()">SIGNUP</div>
+<div class="tab">
+<div id="t1" class="active" onclick="setLogin()">لاگ ان</div>
+<div id="t2" onclick="setSignup()">سائن اپ</div>
 </div>
 
-<div class="input-group" id="nameGroup" style="display:none;">
-<label>Full Name</label>
-<input type="text" id="name" placeholder="e.g. Umar Iltaf">
+<div id="signupFields" style="display:none;">
+<label>پورا نام</label><input class="input" id="name" placeholder="عمر الطاف">
+<label>واٹس ایپ نمبر</label><input class="input" id="phone" placeholder="0300XXXXXXX">
+<label>پاسورڈ</label><input class="input" id="pass" type="password" placeholder="•••••">
+<label>رقم نکلوانے کا طریقہ</label>
+<select class="input" id="method"><option value="">منتخب کریں</option><option>Easypaisa</option><option>JazzCash</option></select>
+<label>اکاؤنٹ نمبر</label><input class="input" id="account" placeholder="0300XXXXXXX">
 </div>
 
-<div class="input-group">
-<label>WhatsApp Number</label>
-<input type="text" id="phone" placeholder="03XX-XXXXXXX">
+<div id="loginFields">
+<label>واٹس ایپ نمبر</label><input class="input" id="loginPhone" placeholder="0300XXXXXXX">
+<label>پاسورڈ</label><input class="input" id="loginPass" type="password" placeholder="•••••">
 </div>
 
-<div class="input-group">
-<label>Password</label>
-<input type="password" id="pass" placeholder="••••••••">
+<button class="btn" id="actionBtn" onclick="handleAction()">لاگ ان →</button>
+
+<!-- Direct Verification Message Box -->
+<div class="details-box" id="detailsBox">
+<h4>✅ آپ کی سائن اپ تفصیلات</h4>
+<div style="font-size:13px; line-height:22px;">
+<b>نام:</b> <span id="dName"></span><br>
+<b>نمبر:</b> <span id="dPhone"></span><br>
+<b>طریقہ:</b> <span id="dMethod"></span><br>
+<b>اکاؤنٹ:</b> <span id="dAccount"></span><br>
+<b>اسٹیٹس:</b> <span style="color:green; font-weight:bold;">ویریفکیشن میسج بھیج دیا گیا ✅</span>
+</div>
 </div>
 
-<div class="input-group hidden" id="methodGroup">
-<label>Withdrawal Method</label>
-<select id="method">
-<option value="">Select Method</option>
-<option value="Easypaisa">Easypaisa</option>
-<option value="JazzCash">JazzCash</option>
-</select>
-</div>
-
-<div class="input-group hidden" id="accountGroup">
-<label>Account Number</label>
-<input type="text" id="account" placeholder="03XX-XXXXXXX">
-</div>
-
-<button class="btn" id="mainBtn" onclick="login()">LOGIN →</button>
-
-<div class="withdraw-card">
-<h4>💳 WITHDRAWAL POLICY</h4>
-<ul>
-<li>Minimum Withdrawal: <b>Rs.1000</b></li>
-<li>At least 1 Verified Sale Required</li>
-<li>Account Must Be On Your Name</li>
-<li>No Bonus - Real Earning Only</li>
-</ul>
-<div class="days-row">
-<div class="day">MON</div><div class="day">TUE</div><div class="day">WED</div><div class="day">THU</div>
-<div class="day off">FRI</div><div class="day off">SAT</div><div class="day off">SUN</div>
-</div>
-<p style="font-size:11px; margin-top:10px; opacity:0.7;">✓ Withdrawal: Monday to Thursday (4 Business Days)</p>
+<div class="otp-box" id="otpBox">
+<h4 style="margin:0;">📱 تصدیقی کوڈ بھیج دیا گیا</h4>
+<p style="font-size:12px; margin:5px 0;">آپ کے نمبر <b id="otpPhoneShow"></b> پر 6 ہندسوں کا کوڈ بھیجا گیا ہے</p>
+<input class="input" id="otpCode" placeholder="123456" style="text-align:center; letter-spacing:6px; font-weight:bold; font-size:18px;">
+<button class="btn" style="background:#ffb300; color:#000;" onclick="verifyNow()">کوڈ کی تصدیق کریں اور اکاؤنٹ بنائیں ✅</button>
+<div id="recaptcha-container"></div>
+<p style="font-size:11px; color:#666; margin-top:8px;">کوڈ نہ آئے تو 60 سیکنڈ بعد دوبارہ کوشش کریں</p>
 </div>
 
 </div>
 </div>
 
 <script>
-let isLogin = true;
-function showLogin(){
- isLogin=true;
- document.getElementById('tabLogin').className='tab active';
- document.getElementById('tabSignup').className='tab inactive';
- document.getElementById('nameGroup').style.display='none';
- document.getElementById('methodGroup').classList.add('hidden');
- document.getElementById('accountGroup').classList.add('hidden');
- document.getElementById('mainBtn').innerText='LOGIN →';
-}
-function showSignup(){
- isLogin=false;
- document.getElementById('tabSignup').className='tab active';
- document.getElementById('tabLogin').className='tab inactive';
- document.getElementById('nameGroup').style.display='block';
- document.getElementById('methodGroup').classList.remove('hidden');
- document.getElementById('accountGroup').classList.remove('hidden');
- document.getElementById('mainBtn').innerText='CREATE ACCOUNT →';
-}
+const firebaseConfig = {
+  apiKey: "AIzaSyAW_HTbK95MROQ7oXKLBTIGEANDpg_90",
+  authDomain: "umariltafstore23.firebaseapp.com",
+  projectId: "umariltafstore23",
+  storageBucket: "umariltafstore23.firebasestorage.app",
+  messagingSenderId: "302079062925",
+  appId: "1:302079062925:web:8f0645fc89d6f8c6f343c4"
+};
+firebase.initializeApp(firebaseConfig);
+let confirmationResult;
+let isSignup=false;
 
-function login(){
- let phone=document.getElementById('phone').value;
- let pass=document.getElementById('pass').value;
- if(phone==""||pass==""){alert("Enter Phone & Password"); return;}
- alert("Login Success!");
- window.location.href="affiliate.html?ref="+phone;
-}
+function setLogin(){ isSignup=false; document.getElementById('t1').className='active'; document.getElementById('t2').className=''; document.getElementById('loginFields').style.display='block'; document.getElementById('signupFields').style.display='none'; document.getElementById('actionBtn').innerText='لاگ ان →'; document.getElementById('detailsBox').style.display='none'; document.getElementById('otpBox').style.display='none'; }
+function setSignup(){ isSignup=true; document.getElementById('t2').className='active'; document.getElementById('t1').className=''; document.getElementById('signupFields').style.display='block'; document.getElementById('loginFields').style.display='none'; document.getElementById('actionBtn').innerText='سائن اپ اور ڈائریکٹ ویریفکیشن بھیجیں →'; }
 
-function signup(){
- let name=document.getElementById('name').value;
- let phone=document.getElementById('phone').value;
- let pass=document.getElementById('pass').value;
+function handleAction(){
+ if(!isSignup){
+  // LOGIN
+  let phone=document.getElementById('loginPhone').value;
+  let pass=document.getElementById('loginPass').value;
+  let users=JSON.parse(localStorage.getItem('users')||"[]");
+  let u=users.find(x=>x.phone==phone && x.pass==pass);
+  if(u){ localStorage.setItem('current_user',phone); window.location.href="affiliate.html"; } else { alert("❌ نمبر یا پاسورڈ غلط ہے"); }
+  return;
+ }
+ // SIGNUP - Direct Verification
+ let name=document.getElementById('name').value.trim();
+ let phone=document.getElementById('phone').value.trim();
+ let pass=document.getElementById('pass').value.trim();
  let method=document.getElementById('method').value;
- let account=document.getElementById('account').value;
- if(name==""||phone==""||pass==""||method==""||account==""){alert("Fill All Fields"); return;}
- localStorage.setItem('balance',0);
- localStorage.setItem('withdraw_method',method);
- localStorage.setItem('withdraw_account',account);
- alert("Account Created! Balance Rs.0 - No Bonus");
- window.location.href="affiliate.html?ref="+phone;
+ let account=document.getElementById('account').value.trim();
+ if(name==""||phone==""||pass==""||method==""||account==""){ alert("تمام خانے پُر کریں"); return; }
+ let users=JSON.parse(localStorage.getItem('users')||"[]");
+ if(users.find(x=>x.phone==phone)){ alert("❌ یہ نمبر پہلے سے موجود ہے!"); setLogin(); return; }
+
+ // Show Details Directly
+ document.getElementById('dName').innerText=name;
+ document.getElementById('dPhone').innerText=phone;
+ document.getElementById('dMethod').innerText=method;
+ document.getElementById('dAccount').innerText=account;
+ document.getElementById('detailsBox').style.display='block';
+ document.getElementById('otpPhoneShow').innerText=phone;
+ document.getElementById('otpBox').style.display='block';
+ 
+ // Direct Firebase OTP Send
+ let fullPhone="+92"+phone.substring(1);
+ window.recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'invisible'});
+ firebase.auth().signInWithPhoneNumber(fullPhone, window.recaptchaVerifier).then(r=>{
+  confirmationResult=r;
+  alert("✅ ویریفکیشن میسج "+phone+" پر بھیج دیا گیا! نیچے کوڈ لکھیں");
+ }).catch(e=>{ alert("Error: "+e.message+" - فائر بیس میں Phone کو Enable کریں"); });
 }
 
-// Override main btn
-document.getElementById('mainBtn').onclick = function(){
- if(isLogin) login(); else signup();
+function verifyNow(){
+ let code=document.getElementById('otpCode').value.trim();
+ if(code.length!=6){ alert("6 ہندسوں کا کوڈ لکھیں"); return; }
+ confirmationResult.confirm(code).then(()=>{
+  let users=JSON.parse(localStorage.getItem('users')||"[]");
+  users.push({
+   name:document.getElementById('name').value,
+   phone:document.getElementById('phone').value,
+   pass:document.getElementById('pass').value,
+   method:document.getElementById('method').value,
+   account:document.getElementById('account').value,
+   balance:0, sales:0, verified:true
+  });
+  localStorage.setItem('users', JSON.stringify(users));
+  localStorage.setItem('current_user', document.getElementById('phone').value);
+  alert("✅ ماشاءاللہ! آپ کا اکاؤنٹ ویریفائی ہو گیا، بیلنس Rs.0 سے شروع");
+  window.location.href="affiliate.html";
+ }).catch(()=>{ alert("❌ غلط کوڈ! دوبارہ چیک کریں"); });
 }
 </script>
 </body>
