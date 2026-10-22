@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Affiliate System - Umar Iltaf</title>
+<style>
+body{font-family:Arial;background:#f1f5f9;margin:0;padding:10px}
+.box{max-width:500px;margin:auto}
+.head{background:#111827;color:#fff;padding:20px;border-radius:18px;text-align:center}
+.card{background:#fff;padding:18px;border-radius:18px;margin-top:12px;box-shadow:0 4px 15px rgba(0,0,0,.07)}
+input{width:100%;padding:14px;border:1px solid #ccc;border-radius:10px;margin-top:8px;box-sizing:border-box;text-align:left;direction:ltr}
+.btn{width:100%;padding:14px;border:0;border-radius:10px;font-weight:bold;font-size:16px;margin-top:10px;cursor:pointer}
+.blue{background:#2563eb;color:#fff}
+.green{background:#16a34a;color:#fff}
+.black{background:#111827;color:#fff}
+.link{background:#eff6ff;border:2px dashed #2563eb;padding:12px;border-radius:10px;margin-top:12px;word-break:break-all;display:none}
+</style>
+</head>
+<body>
+<div class="box">
+<div class="head">
+<h2 style="margin:0">Umar Iltaf Affiliate</h2>
+<p style="margin:5px 0 0 0;font-size:14px">03105423365 - آٹومیٹک سسٹم</p>
+</div>
+
+<div class="card">
+<h3 style="margin:0 0 10px 0">1- اپنا لنک بنائیں</h3>
+<input id="affId" placeholder="اپنی ID لکھیں جیسے Ali123">
+<input id="prodLink" placeholder="Product Link جیسے product.html?id=1">
+<button onclick="gen()" class="btn blue">لنک بنائیں</button>
+<div id="out" class="link"></div>
+<button id="copyBtn" onclick="copyL()" class="btn green" style="display:none">کاپی کریں</button>
+</div>
+
+<div class="card">
+<h3 style="margin:0 0 10px 0">2- ٹیسٹ آرڈر (آٹومیٹک)</h3>
+<p style="font-size:13px">یہ بٹن دبا کر چیک کریں کہ واٹس ایپ پر افلیٹ کا نام آتا ہے یا نہیں</p>
+<input id="pName" value="Test Watch" placeholder="Product Name">
+<input id="pPrice" value="600" placeholder="Price">
+<button onclick="testOrder()" class="btn black">ٹیسٹ آرڈر بھیجیں - واٹس ایپ پر</button>
+</div>
+
+<div class="card">
+<p style="font-size:12px;line-height:1.8;margin:0">
+<b>نوٹ:</b><br>
+✅ 300-400 پر Rs.30<br>
+✅ 600-800 پر Rs.50<br>
+✅ 1000-1500 پر Rs.100<br>
+✅ 1500 سے اوپر Rs.150<br>
+✅ یہ سسٹم 100% آٹومیٹک ہے - آپ کو کچھ لکھنا نہیں پڑے گا
+</p>
+</div>
+
+</div>
+
+<script>
+// Ref کو یاد رکھنا
+let urlParams = new URLSearchParams(window.location.search);
+let r = urlParams.get('ref');
+if(r){ localStorage.setItem('aff_ref', r); }
+
+function gen(){
+let id=document.getElementById('affId').value.trim();
+let link=document.getElementById('prodLink').value.trim();
+if(!id || !link){alert('ID اور Product Link لکھیں'); return;}
+let sep=link.includes('?')?'&':'?';
+let finalLink=link+sep+'ref='+id;
+let out=document.getElementById('out');
+out.style.display='block';
+out.innerText=finalLink;
+document.getElementById('copyBtn').style.display='block';
+window.myFinal=finalLink;
+}
+
+function copyL(){
+navigator.clipboard.writeText(window.myFinal);
+alert('کاپی ہو گیا: ' + window.myFinal);
+}
+
+function getComm(p){
+p=parseInt(p);
+if(p<=400) return 30;
+if(p<=800) return 50;
+if(p<=1500) return 100;
+return 150;
+}
+
+function testOrder(){
+let name=document.getElementById('pName').value;
+let price=document.getElementById('pPrice').value;
+let aff=localStorage.getItem('aff_ref') || document.getElementById('affId').value || 'Direct';
+let comm=getComm(price);
+let msg=`*AUTO ORDER - UMAR ILTAF*%0A%0AProduct: ${name}%0APrice: Rs.${price}%0A%0AAffiliate: ${aff}%0ACommission: Rs.${comm}%0A%0AOwner: 03105423365`;
+window.open(`https://wa.me/923105423365?text=${msg}`,'_blank');
+}
+</script>
+</body>
+</html>
