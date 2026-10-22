@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Affiliate Program - عمر الطاف سٹور</title>
+<style>
+body{background:#f3f4f6;font-family:Arial,sans-serif;margin:0;padding:10px;direction:rtl}
+.main{max-width:650px;margin:auto}
+.header{background:linear-gradient(135deg,#6d28d9,#2563eb);color:#fff;padding:22px;border-radius:18px;text-align:center;margin-bottom:16px}
+.balanceBox{background:linear-gradient(135deg,#059669,#10b981);color:#fff;padding:24px;border-radius:18px;text-align:center;margin-bottom:16px}
+.balanceBox h1{margin:10px 0;font-size:40px;font-weight:900}
+.card{background:#fff;padding:18px;border-radius:18px;box-shadow:0 8px 20px rgba(0,0,0,0.06);margin-bottom:16px;border:1px solid #e5e7eb}
+.table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px;text-align:center}
+.table th,.table td{border:1px solid #e5e7eb;padding:10px}
+.table th{background:#111827;color:#fff}
+.noticeGreen{background:#f0fdf4;border:2px solid #16a34a;padding:14px;border-radius:12px;margin-bottom:12px}
+label{font-weight:bold;font-size:13px;margin-top:12px;display:block;text-align:right}
+input{width:100%;padding:14px;margin:6px 0 10px 0;border:1.5px solid #cbd5e1;border-radius:10px;box-sizing:border-box;font-size:14px;direction:ltr;text-align:left}
+.btn{width:100%;padding:15px;border:none;border-radius:12px;font-weight:bold;font-size:16px;cursor:pointer;margin-top:10px}
+.btn-black{background:#111827;color:#fff}
+.btn-green{background:#25D366;color:#fff}
+.btn-blue{background:#2563eb;color:#fff}
+.linkBox{background:#f8fafc;border:2px dashed #2563eb;padding:12px;border-radius:10px;word-break:break-all;font-size:13px;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="main">
+
+<div class="header">
+<h2 style="margin:0">پلیٹ / افلیٹ پروگرام</h2>
+<p style="margin:6px 0 0 0">عمر الطاف سٹور - کمائیں ہر سیل پر</p>
+<p style="margin:8px 0 0 0;font-size:12px;background:rgba(255,255,255,0.2);display:inline-block;padding:5px 12px;border-radius:20px">اونر: عمر الطاف | 03105423365</p>
+</div>
+
+<div class="balanceBox">
+<p style="margin:0">آپ کا کمیشن بیلنس</p>
+<h1 id="myAffBalance">Rs. 0</h1>
+<p style="margin:0;font-size:12px;background:rgba(0,0,0,0.2);display:inline-block;padding:4px 12px;border-radius:20px">نکالنے کے لیے تیار</p>
+<div style="background:#fff;padding:14px;border-radius:12px;margin-top:16px;text-align:right">
+<label style="color:#000">آپ کا جاز کیش نمبر</label>
+<input id="jazzForWithdraw" placeholder="03123456789">
+<button onclick="withdrawAff()" class="btn btn-black">کمیشن نکالیں - ودڈرا</button>
+</div>
+</div>
+
+<div class="card">
+<h3 style="margin:0 0 10px 0;text-align:center;color:#6d28d9">🔗 اپنا افلیٹ لنک بنائیں</h3>
+<label>پروڈکٹ کا لنک یہاں پیسٹ کریں</label>
+<input id="productLink" placeholder="https://umariltafstore.com/product.html?id=123">
+<label>آپ کا نام / افلیٹ آئی ڈی</label>
+<input id="affId" placeholder="مثال: Ali123">
+<button onclick="makeLink()" class="btn btn-blue">میرا کمیشن والا لنک بنائیں</button>
+<div id="finalLinkBox" class="linkBox" style="display:none"></div>
+<button id="copyBtn" onclick="copyLink()" class="btn btn-green" style="display:none">لنک کاپی کریں اور شیئر کریں</button>
+<p style="font-size:12px;color:gray;text-align:center;margin-top:8px">جب کوئی اس لنک سے خریدے گا تو آپ کا کمیشن خود بخود ایڈ ہو جائے گا</p>
+</div>
+
+<div class="card">
+<h3 style="margin:0 0 10px 0;color:#dc2626;text-align:center">💰 آپ کا کمیشن - نئی لسٹ</h3>
+<table class="table">
+<tr><th>پروڈکٹ قیمت</th><th>آپ کو ملے گا</th><th>مثال</th></tr>
+<tr><td>۲۰۰ سے ۴۰۰</td><td><b>۳۰ روپے</b></td><td>۳۰۰ پر ۳۰</td></tr>
+<tr><td>۴۰۱ سے ۸۰۰</td><td><b>۵۰ روپے</b></td><td>۶۰۰ پر ۵۰</td></tr>
+<tr><td>۸۰۱ سے ۱۵۰۰</td><td><b>۱۰۰ روپے</b></td><td>۱۰۰۰ پر ۱۰۰</td></tr>
+<tr style="background:#f0fdf4;font-weight:bold"><td>۱۵۰۰ سے اوپر</td><td><b>۱۵۰ روپے</b></td><td>۲۰۰۰ پر ۱۵۰</td></tr>
+</table>
+</div>
+
+<div class="noticeGreen">
+<h3 style="margin:0 0 8px 0;color:#166534">✅ افلیٹ رولز</h3>
+<p style="margin:0;font-size:13px;line-height:1.8;text-align:right">
+۱. اپنا لنک فیس بک، ٹک ٹاک، واٹس ایپ پر شیئر کریں۔<br>
+۲. ہر سیل کا سکرین شاٹ آپ کو بھیجا جائے گا۔<br>
+۳. کمیشن روزانہ شام ۷ بجے آپ کے جاز کیش <b>03105423365</b> سے آپ کو بھیجا جائے گا۔<br>
+۴. کم سے کم ودڈرا ۳۰۰ روپے۔<br>
+۵. فراڈ کرنے پر آئی ڈی بلاک کر دی جائے گی۔
+</p>
+</div>
+
+</div>
+
+<script>
+let currentAffBalance = 0;
+document.getElementById('myAffBalance').innerText = "Rs. " + currentAffBalance;
+let generatedLink = "";
+
+function makeLink(){
+let pLink = document.getElementById('productLink').value;
+let affId = document.getElementById('affId').value;
+if(pLink=="" || affId==""){alert("پروڈکٹ لنک اور اپنا نام دونوں لکھیں");return;}
+// affiliate param add
+let sep = pLink.includes("?") ? "&" : "?";
+generatedLink = pLink + sep + "ref=" + affId;
+document.getElementById('finalLinkBox').style.display="block";
+document.getElementById('finalLinkBox').innerText = generatedLink;
+document.getElementById('copyBtn').style.display="block";
+}
+
+function copyLink(){
+navigator.clipboard.writeText(generatedLink);
+alert("لنک کاپی ہو گیا! اب شیئر کریں");
+}
+
+function withdrawAff(){
+let jazz=document.getElementById('jazzForWithdraw').value;
+if(jazz==""){alert("جاز کیش نمبر لکھیں");return;}
+let msg=`*AFFILIATE WITHDRAW REQUEST*%0A%0AAffiliate ID: ${document.getElementById('affId').value}%0ABalance: Rs.${currentAffBalance}%0AJazzCash: ${jazz}%0APlease send my commission.`;
+window.open(`https://wa.me/923105423365?text=${msg}`,'_blank');
+}
+</script>
+</body>
+</html>
